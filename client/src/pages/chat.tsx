@@ -6,7 +6,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Video, Phone, MoreVertical, Languages } from "lucide-react";
+import { MoreVertical, Languages } from "lucide-react";
 import avatar1 from '@assets/generated_images/Asian_businesswoman_avatar_da0109c6.png';
 import avatar2 from '@assets/generated_images/Middle_Eastern_businessman_avatar_22108a53.png';
 import avatar3 from '@assets/generated_images/Hispanic_woman_avatar_6ade3757.png';
@@ -123,13 +123,7 @@ export default function Chat() {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button size="icon" variant="ghost" data-testid="button-video-call">
-                    <Video className="h-5 w-5" />
-                  </Button>
-                  <Button size="icon" variant="ghost" data-testid="button-voice-call">
-                    <Phone className="h-5 w-5" />
-                  </Button>
-                  <Button size="icon" variant="ghost" data-testid="button-more-options">
+                  <Button size="icon" variant="ghost" data-testid="button-more-options" title="Conversation options">
                     <MoreVertical className="h-5 w-5" />
                   </Button>
                 </div>
