@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Mic, Send, Languages } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSpeechToText } from "@/hooks/use-speech-to-text";
 import {
   Select,
   SelectContent,
@@ -18,6 +19,20 @@ export function ChatComposer({ onSendMessage }: ChatComposerProps) {
   const [message, setMessage] = useState("");
   const [language, setLanguage] = useState("en");
   const [isRecording, setIsRecording] = useState(false);
+  const { supported, isRecording: srRecording, interimText, entries, start, stop } = useSpeechToText({ language: language as any });
+
+  useEffect(() => {
+    if (!supported) return;
+    if (srRecording) {
+      // show interim in the input for immediate feedback
+      if (interimText) setMessage(interimText);
+      // when a final entry is produced, populate the input with it
+      if (entries.length > 0) {
+        const last = entries[entries.length - 1];
+        setMessage(last.text);
+      }
+    }
+  }, [supported, srRecording, interimText, entries]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -27,12 +42,20 @@ export function ChatComposer({ onSendMessage }: ChatComposerProps) {
   };
 
   const handleVoiceRecord = () => {
-    setIsRecording(!isRecording);
-    if (!isRecording) {
-      console.log('Started voice recording');
+    if (!supported) {
+      alert("Speech recognition not supported in this browser.");
+      return;
+    }
+    const next = !isRecording;
+    setIsRecording(next);
+    if (next) {
+      start();
     } else {
-      console.log('Stopped voice recording');
-      onSendMessage("Voice message recorded", language, true);
+      stop();
+      if (message.trim()) {
+        onSendMessage(message.trim(), language, true);
+        setMessage("");
+      }
     }
   };
 

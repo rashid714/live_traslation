@@ -13,14 +13,18 @@ interface TranscriptEntry {
   text: string;
   timestamp: string;
   language: string;
+  important?: boolean;
+  followUp?: boolean;
 }
 
 interface TranscriptPanelProps {
   transcripts: TranscriptEntry[];
   selectedLanguage: string;
+  onToggleImportant?: (id: string) => void;
+  onToggleFollowUp?: (id: string) => void;
 }
 
-export function TranscriptPanel({ transcripts, selectedLanguage }: TranscriptPanelProps) {
+export function TranscriptPanel({ transcripts, selectedLanguage, onToggleImportant, onToggleFollowUp }: TranscriptPanelProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const filteredTranscripts = transcripts.filter((t) =>
@@ -57,8 +61,24 @@ export function TranscriptPanel({ transcripts, selectedLanguage }: TranscriptPan
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-medium text-sm">{entry.speakerName}</span>
                   <span className="text-xs text-muted-foreground">{entry.timestamp}</span>
+                  {entry.important && <Badge variant="destructive">Important</Badge>}
+                  {entry.followUp && <Badge variant="secondary">Follow-up</Badge>}
                 </div>
                 <p className="text-sm text-foreground">{entry.text}</p>
+                {(onToggleImportant || onToggleFollowUp) && (
+                  <div className="mt-2 flex gap-2">
+                    {onToggleImportant && (
+                      <Button size="sm" variant="outline" onClick={() => onToggleImportant(entry.id)}>
+                        {entry.important ? "Unmark" : "Mark"} Important
+                      </Button>
+                    )}
+                    {onToggleFollowUp && (
+                      <Button size="sm" variant="outline" onClick={() => onToggleFollowUp(entry.id)}>
+                        {entry.followUp ? "Clear" : "Add"} Follow-up
+                      </Button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           ))}

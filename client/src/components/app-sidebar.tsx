@@ -1,4 +1,4 @@
-import { Home, MessageSquare, Radio, GraduationCap, FileText, User, Settings } from "lucide-react";
+import { Home, MessageSquare, Radio, GraduationCap, FileText, User, Settings, Library } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import {
   Sidebar,
@@ -36,6 +36,11 @@ const menuItems = [
     title: "Education Hub",
     url: "/education",
     icon: GraduationCap,
+  },
+  {
+    title: "Knowledge Base",
+    url: "/knowledge",
+    icon: Library,
   },
   {
     title: "My Notes",

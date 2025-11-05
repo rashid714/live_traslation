@@ -15,6 +15,7 @@ import Education from "@/pages/education";
 import Notes from "@/pages/notes";
 import Profile from "@/pages/profile";
 import Settings from "@/pages/settings";
+import Knowledge from "@/pages/knowledge";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/chat" component={Chat} />
       <Route path="/speaker" component={Speaker} />
       <Route path="/education" component={Education} />
+  <Route path="/knowledge" component={Knowledge} />
       <Route path="/notes" component={Notes} />
       <Route path="/profile" component={Profile} />
       <Route path="/settings" component={Settings} />
